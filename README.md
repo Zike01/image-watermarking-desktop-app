@@ -12,3 +12,4 @@ cd image-watermarking-desktop-app
 pip install -r requirements.txt
 python main.py
 ```
+View your images in the 'watermarked_images' folder.
