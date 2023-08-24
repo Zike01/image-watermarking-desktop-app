@@ -1,4 +1,4 @@
-from PIL import Image, ImageTk, ImageDraw, ImageFont
+from PIL import ImageTk, ImageDraw, ImageFont
 import PIL.Image  # Import the image MODULE for opening images
 
 from tkinter import *
@@ -23,6 +23,8 @@ def add_watermark(image_path, text_color):
     # Add watermark to the image if text was entered
     if text:
         with PIL.Image.open(image_path).convert("RGBA") as im:
+            
+            print('/'.join(image_path.split("/")[:-1]))
 
             # Get the dimensions of the imported image
             [width, height] = im.size
@@ -31,7 +33,7 @@ def add_watermark(image_path, text_color):
             txt = PIL.Image.new("RGBA", im.size, (255, 255, 255, 0))
 
             # get a font
-            fnt = ImageFont.truetype("arial.ttf", 40, encoding="unic")
+            fnt = ImageFont.truetype("arial.ttf", 20, encoding="unic")
             # get a drawing context
             d = ImageDraw.Draw(txt)
 
@@ -42,8 +44,13 @@ def add_watermark(image_path, text_color):
 
             out = out.convert("RGB")
 
-            # Save the watermarked image to the watermarked_images folder
-            out.save(f"watermarked_images/{image_path.split('/')[-1]}")
+            # Save the watermarked image to the original image folder
+            image_path = image_path.split('/')
+            filename = image_path[-1].split('.')[0]
+            ext = image_path[-1].split('.')[1]
+            
+            out_path = f"{'/'.join(image_path[:-1])}/{filename}-watermarked.{ext}"
+            out.save(out_path)
 
         # Tell the user that image has been saved
         messagebox.showinfo(title="Image Saved", message="Your watermarked image has been saved.")
